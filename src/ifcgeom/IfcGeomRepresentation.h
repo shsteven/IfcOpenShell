@@ -151,7 +151,7 @@ namespace IfcGeom {
 
 					// Triangulate the shape
 					try {
-						BRepMesh_IncrementalMesh(s, settings().deflection_tolerance());
+						BRepMesh_IncrementalMesh(s, settings().deflection_tolerance(), true, settings().angular_deflection_tolerance());
 					} catch(...) {
 
 						// TODO: Catch outside

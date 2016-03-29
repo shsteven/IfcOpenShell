@@ -130,6 +130,7 @@ int main(int argc, char** argv) {
 
     std::vector<std::string> entity_vector, names;
     double deflection_tolerance;
+    double angular_deflection_tolerance;
     boost::program_options::options_description geom_options("Geometry options");
 	geom_options.add_options()
 		("plan",
@@ -192,6 +193,8 @@ int main(int argc, char** argv) {
             "model in other modelling application in any case.")
         ("deflection-tolerance", boost::program_options::value<double>(&deflection_tolerance),
             "Sets the deflection tolerance of the mesher, 1e-3 by default if not specified.")
+         ("angular-deflection-tolerance", boost::program_options::value<double>(&angular_deflection_tolerance),
+            "Sets the angular deflection tolerance of the mesher, 0.5 by default if not specified.")
         ("generate-uvs",
             "Generates UVs (texture coordinates) by using simple box projection. Requires normals. "
             "Not guaranteed to work properly if used with --weld-vertices.");
@@ -274,6 +277,7 @@ int main(int argc, char** argv) {
     bool center_model = vmap.count("center-model") != 0 ;
     const bool generate_uvs = vmap.count("generate-uvs") != 0 ;
     const bool deflection_tolerance_specified = vmap.count("deflection-tolerance") != 0 ;
+    const bool angular_deflection_tolerance_specified = vmap.count("angular-deflection-tolerance") != 0 ;
 	boost::optional<int> bounding_width, bounding_height;
 	if (vmap.count("bounds") == 1) {
 		int w, h;
@@ -374,6 +378,9 @@ int main(int argc, char** argv) {
     settings.set(IfcGeom::IteratorSettings::GENERATE_UVS, generate_uvs);
     if (deflection_tolerance_specified) {
         settings.set_deflection_tolerance(deflection_tolerance);
+    }
+    if (angular_deflection_tolerance_specified) {
+        settings.set_angular_deflection_tolerance(angular_deflection_tolerance);
     }
 
 	GeometrySerializer* serializer;

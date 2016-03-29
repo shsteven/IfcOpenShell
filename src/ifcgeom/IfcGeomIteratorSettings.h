@@ -95,7 +95,7 @@ namespace IfcGeom
 
         IteratorSettings()
             : settings_(WELD_VERTICES) // OR options that default to true here
-            , deflection_tolerance_(1.e-3)
+            , deflection_tolerance_(1.e-3), angular_deflection_tolerance_(0.5)
         {
             memset(offset, 0, sizeof(offset));
         }
@@ -105,6 +105,8 @@ namespace IfcGeom
 
         /// Note that this is independent of the IFC length unit, one millimeter by default.
         double deflection_tolerance() const { return deflection_tolerance_; }
+        
+        double angular_deflection_tolerance() const { return angular_deflection_tolerance_;}
 
         void set_deflection_tolerance(double value)
         {
@@ -114,6 +116,14 @@ namespace IfcGeom
             if (deflection_tolerance_ <= 1e-6) {
                 Logger::Message(Logger::LOG_WARNING, "Deflection tolerance cannot be set to <= 1e-6; using the default value 1e-3");
                 deflection_tolerance_ = 1e-3;
+            }
+        }
+        
+        void set_angular_deflection_tolerance(double value){
+            angular_deflection_tolerance_ = value;;
+            if (angular_deflection_tolerance_ <=0.005) {
+                Logger::Message(Logger::LOG_WARNING, "Angular deflection tolerance cannot be set to <= 0.005; using the default value 0.5");
+                angular_deflection_tolerance_ = 0.5;
             }
         }
 
@@ -138,6 +148,7 @@ namespace IfcGeom
     protected:
         SettingField settings_;
         double deflection_tolerance_;
+        double angular_deflection_tolerance_;
     };
 
     class ElementSettings : public IteratorSettings

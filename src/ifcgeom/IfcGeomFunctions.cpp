@@ -647,6 +647,7 @@ void IfcGeom::Kernel::apply_tolerance(TopoDS_Shape& s, double t) {
 }
 
 static double deflection_tolerance = 0.001;
+static double angular_deflection_tolerance = 0.5;
 static double wire_creation_tolerance = 0.0001;
 static double minimal_face_area = 0.000001;
 static double point_equality_tolerance = 0.00001;
@@ -660,6 +661,9 @@ void IfcGeom::Kernel::setValue(GeomValue var, double value) {
 	switch (var) {
 	case GV_DEFLECTION_TOLERANCE:
 		deflection_tolerance = value;
+		break;
+  case GV_ANGULAR_DEFLECTION_TOLERANCE:
+		angular_deflection_tolerance = value;
 		break;
 	case GV_WIRE_CREATION_TOLERANCE:
 		wire_creation_tolerance = value;
@@ -694,6 +698,8 @@ double IfcGeom::Kernel::getValue(GeomValue var) const {
 	switch (var) {
 	case GV_DEFLECTION_TOLERANCE:
 		return deflection_tolerance;
+  case GV_ANGULAR_DEFLECTION_TOLERANCE:
+   return angular_deflection_tolerance;
 	case GV_WIRE_CREATION_TOLERANCE:
 		return wire_creation_tolerance;
 	case GV_MINIMAL_FACE_AREA:
