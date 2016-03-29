@@ -94,7 +94,10 @@ public:
 		// Default: 0.00001 (obtained from IfcGeometricRepresentationContext if available)
 		GV_PRECISION,
 		// Whether to process shapes of type Face or higher (1) Wire or lower (-1) or all (0)
-		GV_DIMENSIONALITY
+		GV_DIMENSIONALITY,
+    // Specifies the angular deflection of the mesher
+		// Default: 0.5
+		GV_ANGULAR_DEFLECTION_TOLERANCE
 	};
 
 	bool convert_wire_to_face(const TopoDS_Wire& wire, TopoDS_Face& face);
